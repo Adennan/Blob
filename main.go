@@ -4,12 +4,14 @@ import (
 	"Blob/config"
 	"Blob/global"
 	"Blob/internal/router"
+	"Blob/utils/logger"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	lumberjack "gopkg.in/natefinch/lumberjack.v2"
 )
 
 func init() {
@@ -19,6 +21,20 @@ func init() {
 }
 
 func main() {
+	// DB
+	var err error
+	if global.DB, err = global.NewDB(global.Database); err != nil {
+		panic(err)
+	}
+
+	// Logger
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  global.App.LogPath + "/" + global.App.LogFileName + global.App.LogFileExt,
+		MaxSize:   600,
+		MaxAge:    10,
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+
 	gin.SetMode(global.Server.Mode)
 	router := router.NewRouter()
 
@@ -38,13 +54,13 @@ func setup() error {
 		return err
 	}
 
-	if err = set.ReadConfig("Server", global.Server); err != nil {
+	if err = set.ReadConfig("Server", &global.Server); err != nil {
 		return err
 	}
-	if err = set.ReadConfig("App", global.App); err != nil {
+	if err = set.ReadConfig("App", &global.App); err != nil {
 		return err
 	}
-	if err = set.ReadConfig("Database", global.Database); err != nil {
+	if err = set.ReadConfig("Database", &global.Database); err != nil {
 		return err
 	}
 

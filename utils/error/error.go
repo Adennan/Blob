@@ -1,4 +1,4 @@
-package utils
+package error
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	codes                     map[int]string
+	codes                     = make(map[int]string)
 	Success                   = NewError(0, "成功")
 	ServerError               = NewError(10000000, "服务内部错误")
 	InvalidParams             = NewError(10000001, "参数错误")

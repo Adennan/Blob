@@ -22,7 +22,7 @@ type App struct {
 	LogFileExt      string `json:"log_file_ext"`
 }
 
-type DataBase struct {
+type Database struct {
 	Type         string `json:"type"`
 	Username     string `json:"username"`
 	Password     string `json:"password"`
