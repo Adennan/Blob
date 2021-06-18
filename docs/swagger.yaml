@@ -1,0 +1,80 @@
+definitions:
+  error.Error:
+    properties:
+      code:
+        type: integer
+      details:
+        items:
+          type: string
+        type: array
+      msg:
+        type: string
+    type: object
+  model.Tag:
+    properties:
+      create_at:
+        type: string
+      create_by:
+        type: string
+      del_status:
+        type: integer
+      delete_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      update_at:
+        type: string
+      update_by:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Blob is a blog server
+  title: Blob
+  version: "1.0"
+paths:
+  /v1/tags:
+    get:
+      parameters:
+      - description: 标签名称
+        in: query
+        maxLength: 100
+        name: name
+        type: string
+      - default: 1
+        description: 状态
+        enum:
+        - 0
+        - 1
+        in: query
+        name: state
+        type: integer
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Tag'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/error.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/error.Error'
+      summary: 获取多个标签
+swagger: "2.0"

@@ -20,12 +20,15 @@ func init() {
 	}
 }
 
+// @title Blob
+// @version 1.0
+// @description Blob is a blog server
 func main() {
 	// DB
-	var err error
-	if global.DB, err = global.NewDB(global.Database); err != nil {
-		panic(err)
-	}
+	// var err error
+	// if global.DB, err = global.NewDB(global.Database); err != nil {
+	// 	panic(err)
+	// }
 
 	// Logger
 	global.Logger = logger.NewLogger(&lumberjack.Logger{
